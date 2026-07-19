@@ -13,3 +13,15 @@ A web-based application that evaluates the reading fluency of Assamese-speaking 
 - Teacher dashboard for viewing student results
 - Download results as a CSV file
 - Simple and user-friendly web interface
+
+
+## Technologies Used
+
+- Python
+- Flask
+- OpenAI Whisper
+- PyTorch
+- HTML
+- CSS
+- JavaScript
+- CSV
