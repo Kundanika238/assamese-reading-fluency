@@ -25,3 +25,21 @@ A web-based application that evaluates the reading fluency of Assamese-speaking 
 - CSS
 - JavaScript
 - CSV
+
+
+## Project Structure
+
+```
+assamese-reading-fluency/
+│
+├── static/                 # CSS files
+├── templates/              # HTML templates
+├── app.py                  # Main Flask application
+├── create_csv.py           # Creates CSV file for storing results
+├── dataset.csv             # Training dataset
+├── test_model.py           # Test the trained model
+├── train_whisper.py        # Whisper fine-tuning script
+├── train_whisper_full.py   # Full model training script
+├── README.md
+└── .gitignore
+```
