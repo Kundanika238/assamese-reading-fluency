@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# Flask cache
+instance/
+
+# Audio files
+*.wav
+*.mp3
+*.m4a
+
+# CSV generated during execution (optional)
+student_results.csv
+
+# Trained Whisper model
+whisper-assamese/
+
+# Operating System
+.DS_Store
+Thumbs.db
+uploads/
+whisper-assamese/

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assamese Reading Fluency Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<a href="/" class="home-btn">🏠 Home</a>
+
+<div class="container">
+
+    <h1>Assamese Reading Fluency Analyzer</h1>
+
+    <input
+        type="text"
+        id="studentName"
+        placeholder="Enter Student Name">
+
+    <textarea
+        id="expectedText"
+        rows="5"
+        placeholder="Enter Assamese text in English transliteration (e.g. Asomot bohu saah bagisa ase)">
+    </textarea>
+
+    <button id="recordBtn">
+        Start Recording
+    </button>
+
+    <div id="status"></div>
+
+    <div class="progress-container">
+        <div id="progressBar"></div>
+    </div>
+
+    <div id="accuracyValue"></div>
+
+</div>
+
+<script>
+
+let mediaRecorder;
+let audioChunks = [];
+
+const recordBtn =
+document.getElementById("recordBtn");
+
+const status =
+document.getElementById("status");
+
+recordBtn.onclick = async () => {
+
+    if(recordBtn.innerText === "Start Recording")
+    {
+        const stream =
+        await navigator.mediaDevices.getUserMedia(
+            { audio:true }
+        );
+
+        mediaRecorder =
+        new MediaRecorder(stream);
+
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable =
+        event =>
+        {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.start();
+
+        status.innerText =
+        "Recording...";
+
+        recordBtn.innerText =
+        "Stop Recording";
+    }
+
+    else
+    {
+        mediaRecorder.stop();
+
+        mediaRecorder.onstop =
+        async () =>
+        {
+            const audioBlob =
+            new Blob(
+                audioChunks,
+                { type:"audio/webm" }
+            );
+
+            const formData =
+            new FormData();
+
+            const studentName =
+            document.getElementById(
+                "studentName"
+            ).value;
+
+            const expectedText =
+            document.getElementById(
+                "expectedText"
+            ).value;
+
+            formData.append(
+                "student_name",
+                studentName
+            );
+
+            formData.append(
+                "expected_text",
+                expectedText
+            );
+
+            formData.append(
+                "audio",
+                audioBlob,
+                "student_recording.webm"
+            );
+
+            const response =
+            await fetch(
+                "/upload",
+                {
+                    method:"POST",
+                    body:formData
+                }
+            );
+
+            const result =
+            await response.text();
+
+            let formattedResult = result;
+
+            if(result.includes("Excellent"))
+            {
+                formattedResult =
+                result.replace(
+                    "Excellent",
+                    "<span class='excellent'>Excellent</span>"
+                );
+            }
+
+            else if(result.includes("Good"))
+            {
+                formattedResult =
+                result.replace(
+                    "Good",
+                    "<span class='good'>Good</span>"
+                );
+            }
+
+            else if(result.includes("Average"))
+            {
+                formattedResult =
+                result.replace(
+                    "Average",
+                    "<span class='average'>Average</span>"
+                );
+            }
+
+            else if(result.includes("Needs Practice"))
+            {
+                formattedResult =
+                result.replace(
+                    "Needs Practice",
+                    "<span class='needs-practice'>Needs Practice</span>"
+                );
+            }
+
+            status.innerHTML = formattedResult;
+
+            const match =
+            result.match(/Accuracy:\s*([\d.]+)/);
+
+            if(match)
+            {
+                const accuracy =
+                parseFloat(match[1]);
+
+                document.getElementById(
+                    "progressBar"
+                ).style.width =
+                accuracy + "%";
+
+                document.getElementById(
+                    "accuracyValue"
+                ).innerText =
+                "Reading Accuracy: " +
+                accuracy + "%";
+            }
+        };
+
+        recordBtn.innerText =
+        "Start Recording";
+    }
+};
+
+</script>
+
+</body>
+</html>
