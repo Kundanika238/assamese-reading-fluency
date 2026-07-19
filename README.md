@@ -216,11 +216,20 @@ The fine-tuned model is used to:
 - Improve recognition accuracy for the reading passages used in the application.
 - Evaluate students based on the similarity between the expected text and the transcribed text.
 
+## Dataset Information
+
+The dataset used in this project was created specifically for training the Assamese speech recognition model.
+
+- All speech recordings were recorded by me.
+- The recordings were collected using my own voice under different reading conditions.
+- The dataset contains Assamese reading passages prepared for reading fluency assessment.
+- The recorded audio was preprocessed and used to fine-tune the Whisper Tiny model for this project.
 
 ## Future Improvements
 
 The following features can be added in future versions of the project:
 
+- Expand the speech dataset by collecting recordings from multiple speakers of different ages, genders, and accents to improve the model's robustness and generalization.
 - Support for multiple Assamese reading passages based on different grade levels.
 - Student login and individual progress tracking.
 - Graphical visualization of reading performance over time.
