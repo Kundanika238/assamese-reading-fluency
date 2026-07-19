@@ -1,0 +1,3 @@
+# AI-Powered Assamese Reading Fluency Assessment Platform using a Fine-Tuned Whisper Model
+
+A web-based application that evaluates the reading fluency of Assamese-speaking students using a fine-tuned Whisper speech recognition model. The system transcribes spoken audio, compares it with the expected text, calculates reading accuracy, assigns a fluency rating, and provides a teacher dashboard for monitoring student performance.
